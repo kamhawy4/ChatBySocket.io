@@ -12,5 +12,14 @@ application.use(express.static('public_html'));
 var sio = socket(server);
 
 sio.on('connection',function(vistor) {
+
 	console.log('we have a new vistor as id=>',vistor.id);
+
+	vistor.on('message',function(data){
+		sio.sockets.emit('new_msg',data);
+	});
+
+	vistor.on('borad',function(data){
+		vistor.broadcast.emit('new_borad',data);
+	});
 });
